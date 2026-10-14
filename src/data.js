@@ -1,5 +1,6 @@
 export const chapters = [
   "Introduction",
+  "Film walkthrough",
   "The philosophy",
   "Architecture",
   "Exterior palette",
@@ -8,6 +9,7 @@ export const chapters = [
 ];
 export const ids = [
   "introduction",
+  "film",
   "philosophy",
   "architecture",
   "exterior",

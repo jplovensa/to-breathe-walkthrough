@@ -912,7 +912,7 @@ dialog > img {
   }
   .navigation nav {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 0 13px;
     flex: 1;
   }
@@ -1108,5 +1108,178 @@ dialog > img {
   h2,
   h3 {
     color: #253022;
+  }
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px 24px;
+}
+.film-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+.film-heading .eyebrow {
+  margin-bottom: 18px;
+}
+.film-heading h2 {
+  font-size: 47px;
+}
+.film-heading-note {
+  text-align: right;
+}
+.film-heading-note p {
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.film-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 235px;
+  gap: 30px;
+}
+.film-screen {
+  min-width: 0;
+}
+.film-screen video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #1f2d23;
+  object-fit: contain;
+}
+.film-chapters > .small-label {
+  display: block;
+  margin-bottom: 15px;
+}
+.film-chapters > button:not(.primary) {
+  display: grid;
+  grid-template-columns: 39px 1fr 15px;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--line);
+  padding: 14px 5px;
+  text-align: left;
+  font-size: 11px;
+}
+.film-chapters > button:not(.primary) > span:first-child {
+  font-size: 9px;
+  color: var(--muted);
+}
+.film-chapters > button[aria-current] {
+  background: #e1e7d9;
+}
+.film-chapters > .primary {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  gap: 12px;
+  font-size: 11px;
+}
+.film-transcript {
+  border-top: 1px solid var(--line);
+  margin-top: 18px;
+  font-size: 12px;
+  padding: 16px 0 0;
+}
+.film-transcript summary {
+  cursor: pointer;
+}
+.film-transcript > div {
+  columns: 2;
+  column-gap: 30px;
+  padding-top: 18px;
+}
+.film-transcript p {
+  font-size: 12px;
+  margin-bottom: 12px;
+  break-inside: avoid;
+}
+.film-transcript strong {
+  display: block;
+  font-size: 12px;
+  color: var(--green);
+  font-weight: 500;
+}
+.media-status {
+  position: relative;
+  z-index: 2;
+  padding: 24px;
+  margin: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  font-size: 12px;
+  line-height: 1.8;
+}
+[hidden] {
+  display: none !important;
+}
+@media (max-width: 1100px) {
+  .navigation nav {
+    gap: 12px;
+  }
+  .navigation nav button {
+    font-size: 8px;
+  }
+  .film-layout {
+    grid-template-columns: minmax(0, 1fr) 210px;
+    gap: 20px;
+  }
+}
+@media (max-width: 760px) {
+  .hero-actions {
+    gap: 12px 20px;
+  }
+  .film-heading {
+    display: block;
+  }
+  .film-heading h2 {
+    font-size: 43px;
+  }
+  .film-heading-note {
+    text-align: left;
+    margin-top: 18px;
+  }
+  .film-layout {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .film-chapters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 16px;
+  }
+  .film-chapters > .small-label,
+  .film-chapters > .primary {
+    grid-column: 1 / -1;
+  }
+  .film-chapters > button:not(.primary) {
+    font-size: 10px;
+    grid-template-columns: 32px 1fr 12px;
+    gap: 5px;
+  }
+  .film-transcript > div {
+    columns: 1;
+  }
+  .navigation nav {
+    gap: 0 10px;
+  }
+}
+@media print {
+  .film-screen video {
+    display: none;
+  }
+  .film-chapters {
+    display: none;
+  }
+  .film-transcript > div {
+    columns: 1;
   }
 }

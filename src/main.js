@@ -7,6 +7,7 @@ import {
   selectVilla,
   MAX_NOTES_LENGTH,
 } from "./state.js";
+import { initializeMedia } from "./media.js";
 import { renderChapter } from "./views.js";
 
 document.querySelectorAll("[data-catalogue]").forEach((link) => {
@@ -43,6 +44,7 @@ function saveSelection() {
 
 function render() {
   content.innerHTML = renderChapter(step, state, browsingStyle);
+  initializeMedia(content);
   chapterNavigation.innerHTML = chapters
     .map(
       (name, index) => `
@@ -51,7 +53,8 @@ function render() {
     </button>`,
     )
     .join("");
-  document.querySelector("#counter").textContent = `0${step + 1} / 06`;
+  document.querySelector("#counter").textContent =
+    `0${step + 1} / ${String(chapters.length).padStart(2, "0")}`;
   document.querySelector("#previous").disabled = step === 0;
   document.querySelector("#next").disabled = step === chapters.length - 1;
   document.querySelector("#progress").style.width =
@@ -70,6 +73,9 @@ function go(index) {
 function showSource(page) {
   if (!Number.isInteger(page) || page < 1 || page > 23) return;
   const image = document.querySelector("#source-image");
+  image.hidden = false;
+  image.parentElement.querySelector(".media-status")?.remove();
+  delete image.dataset.fallbackTried;
   image.src = publicAsset(`assets/page-${page}.webp`);
   image.alt = `Original Signature Series catalogue, page ${page}`;
   document.querySelector("#source-caption").textContent =
@@ -101,6 +107,23 @@ function handleClick(event) {
     shortlist,
   } = button.dataset;
 
+  if (button.hasAttribute("data-watch-film")) {
+    go(ids.indexOf("film"));
+    const video = document.querySelector("#walkthrough-video");
+    video.play().catch(() => toast("Press play to start the film"));
+    return;
+  }
+  if (button.dataset.chapter) return go(ids.indexOf(button.dataset.chapter));
+  if (button.dataset.videoTime !== undefined) {
+    const video = document.querySelector("#walkthrough-video");
+    const seek = () => {
+      video.currentTime = Number(button.dataset.videoTime);
+      video.play().catch(() => toast("Press play to continue the film"));
+    };
+    if (video.readyState >= 1) seek();
+    else video.addEventListener("loadedmetadata", seek, { once: true });
+    return;
+  }
   if (chapter !== undefined) return go(Number(chapter));
   if (source) return showSource(Number(source));
   if (villa) {
@@ -153,6 +176,7 @@ document.addEventListener("keydown", (event) => {
   const focusedElement = document.activeElement;
   if (
     dialog.open ||
+    focusedElement.closest("video") ||
     focusedElement.isContentEditable ||
     ["INPUT", "TEXTAREA", "SELECT", "BUTTON"].includes(
       focusedElement.tagName,

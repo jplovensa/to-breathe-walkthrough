@@ -51,6 +51,9 @@ test("built HTML and stylesheet resources resolve under a repository Pages URL",
     for (const resource of resources) await assertHostedFile(resource, url);
   }
   await assertHostedFile("catalogue.pdf");
+  await assertHostedFile("video/to-breathe-walkthrough.mp4");
+  await assertHostedFile("video/captions.vtt");
+  await assertHostedFile("video/poster.webp");
   for (let page = 1; page <= 23; page++)
     await assertHostedFile(`assets/page-${page}.webp`);
 });
@@ -58,7 +61,7 @@ test("built HTML and stylesheet resources resolve under a repository Pages URL",
 test("unbuilt static publishing has native module and public asset paths", async () => {
   assert.equal(
     publicAsset("assets/shelter.webp"),
-    "./public/assets/shelter.webp",
+    new URL("../public/assets/shelter.webp", import.meta.url).href,
   );
   const html = await readFile("index.html", "utf8");
   assert.ok(html.includes('src="./src/main.js"'));

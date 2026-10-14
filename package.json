@@ -7,8 +7,9 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "check": "node --test tests/state.test.js",
-    "test:hosting": "node --test tests/hosting.test.js"
+    "check": "node --test tests/state.test.js tests/assets.test.js",
+    "test:hosting": "node --test tests/hosting.test.js",
+    "video:build": "python3 scripts/build-video.py"
   },
   "devDependencies": {
     "vite": "^7.1.0"
