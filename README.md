@@ -12,9 +12,20 @@ npm run dev
 ```
 
 ```sh
+npm run check
 npm run build
+npm run test:hosting
 npm run preview
 ```
+
+## GitHub Pages
+
+Both GitHub Pages publishing modes are supported:
+
+- **Existing branch-based site:** publish `main` from `/ (root)`. Native browser modules load the source directly; relative asset paths and `.nojekyll` support the repository URL without a build step.
+- **Recommended automated deployment:** under repository **Settings → Pages → Build and deployment**, choose **GitHub Actions** as the source. The `Deploy walkthrough to GitHub Pages` workflow installs locked dependencies, runs checks, builds the app, and publishes `dist` whenever `main` changes. You can also run it manually from the Actions tab.
+
+The expected repository URL is `https://jplovensa.github.io/to-breathe-walkthrough/`. Do not upload the Vite source as a compiled bundle; the workflow generates the production artifact. Relative build URLs also support custom domains. If enabling the Actions source after a failed run, rerun the workflow.
 
 ## Present
 
@@ -26,7 +37,7 @@ npm run preview
 - In **Your vision**, add discussion notes, download a text brief, or print/save the brief as PDF.
 - Catalogue boards open in an accessible native dialog; press Escape to close. The original 23-page PDF is available to view and download.
 
-Selections and notes stay in this browser's local storage; there is no server submission or cross-device synchronization. Fonts, renderings, and catalogue boards are served locally, without external runtime requests.
+Selections and notes stay in this browser's local storage (or in memory for the current session if storage is blocked); there is no server submission or cross-device synchronization. Fonts, renderings, and catalogue boards are served locally, without external runtime requests.
 
 ## Source and editorial scope
 
@@ -36,4 +47,6 @@ Fonts are distributed with their licenses in `public/fonts/`. No stock or genera
 
 ## Validation
 
-Production build and Chromium browser checks cover all six chapters at desktop and mobile sizes, image loading, villa and exterior selection, catalogue dialogs, interior shortlisting, local persistence, and downloaded brief contents.
+`npm run check` validates saved-state recovery, preservation of the interior choice when reselecting a villa, and downloaded brief contents. After a build, `npm run test:hosting` verifies that scripts, stylesheets, local fonts, catalogue pages, and the PDF resolve under a repository subpath, and checks native static-publishing paths.
+
+Chromium checks exercised both the compiled production artifact and the unbuilt source at nested repository URLs, as well as a domain-root deployment. These checks covered six chapters on desktop and mobile, font and image loading, catalogue dialogs, selection and shortlist persistence, downloads, corrupted saved-state recovery, and the absence of requests outside the deployment path. Live GitHub Pages deployment requires the repository's Pages configuration and a successful publish; local validation does not establish that a deployment has finished.
